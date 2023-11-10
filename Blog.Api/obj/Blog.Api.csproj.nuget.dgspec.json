@@ -38,6 +38,56 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Fusonic.Extensions.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.2.2, )"
+            },
+            "Fusonic.Extensions.MediatR": {
+              "target": "Package",
+              "version": "[6.2.2, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.24, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.24, )"
+            },
+            "Microsoft.AspNetCore.JsonPatch": {
+              "target": "Package",
+              "version": "[6.0.24, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[6.0.24, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.24, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[6.0.24, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.24, )"
+            },
+            "SimpleInjector": {
+              "target": "Package",
+              "version": "[5.4.1, )"
+            },
+            "SimpleInjector.Integration.AspNetCore": {
+              "target": "Package",
+              "version": "[5.5.0, )"
+            },
+            "SimpleInjector.Integration.AspNetCore.Mvc": {
+              "target": "Package",
+              "version": "[5.5.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"
