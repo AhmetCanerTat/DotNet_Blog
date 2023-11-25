@@ -12,8 +12,7 @@ public class Post
     [Required] [MaxLength(50)] public string Title { get; set; }
 
     [Required] [MaxLength(200)] public string Content { get; set; }
-
-    [Required] [MaxLength(50)] public string UserName { get; set; }
+    
     [Required] public DateTime CreationDate { get; set; }
 
     public ICollection<Comment> Comments { get; set; } = new List<Comment>();

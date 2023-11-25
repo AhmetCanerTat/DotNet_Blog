@@ -20,7 +20,7 @@ container.Options.DefaultLifestyle = Lifestyle.Scoped;
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDbContext<BlogInfoContext>(
-    dbContextOptions => dbContextOptions.UseSqlite("Data Source=BlogInfo.db"));
+    dbContextOptions => dbContextOptions.UseSqlite(builder.Configuration["ConnectionStrings:BlogInfoConnection"]));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => options.CustomSchemaIds(x => x.FullName?.Replace("+", "-")));
 builder.Services.AddIdentity<User, IdentityRole>(options =>

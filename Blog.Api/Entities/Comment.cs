@@ -16,7 +16,7 @@ public class Comment
     [ForeignKey("PostId")] public Post? Post { get; set; }
     public int PostId { get; set; }
 
-    public string UserName { get; set; }
+
     public DateTime CreationDate { get; set; }
 
     public Comment(string title, string content)
