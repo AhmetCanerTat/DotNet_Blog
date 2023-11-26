@@ -36,10 +36,22 @@ public class CommentController : ControllerBase
         [FromBody] CommentCreationModel body)
     {
         var com = await _mediator.Send(new AddComment(body.Title, body.Content, postId));
-        
+
         return CreatedAtRoute("GetComment", new
         {
             postId, commentId = com.Id
         }, com);
     }
+
+    public record UpdateCommentTitleModel([MaxLength(50)] string Title);
+
+    [HttpPost("{commentId}/UpdateTitle")]
+    public Task<Unit> UpdateCommentTitle(int postId, int commentId, [FromBody] UpdateCommentTitleModel body) =>
+        _mediator.Send(new UpdateCommentTitle(commentId, postId, body.Title));
+
+    public record UpdateCommentContentModel([MaxLength(200)] string Content);
+
+    [HttpPost("{commentId}/UpdateContent")]
+    public Task<Unit> UpdatePostContent(int postId, int commentId, [FromBody] UpdateCommentContentModel body) =>
+        _mediator.Send(new UpdateCommentContent(commentId, postId, body.Content));
 }
