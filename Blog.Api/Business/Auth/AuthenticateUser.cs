@@ -55,6 +55,7 @@ public record AuthenticateUser(string UserName, string Password) : ICommand<Auth
         {
             var claims = new List<Claim>
             {
+                new Claim("UserId",user.Id),
                 new Claim(ClaimTypes.Name, user.UserName)
             };
             var roles = await userManager.GetRolesAsync(user);

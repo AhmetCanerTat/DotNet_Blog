@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Blog.Api.Business.Post;
 
-public record UpdatePostContent(int postId, string Content) : ICommand
+public record UpdatePostContent(int PostId, string Content,string? UserId) : ICommand
 {
     public class Handler : IRequestHandler<UpdatePostContent>
     {
@@ -16,7 +16,7 @@ public record UpdatePostContent(int postId, string Content) : ICommand
 
         public async Task<Unit> Handle(UpdatePostContent request, CancellationToken cancellationToken)
         {
-            var post = await _context.Posts.SingleRequiredAsync(x => x.Id == request.postId, cancellationToken);
+            var post = await _context.Posts.SingleRequiredAsync(x => x.Id == request.PostId && x.UserId == request.UserId, cancellationToken);
             post.Content = request.Content;
             await _context.SaveChangesAsync(cancellationToken);
             return default;
