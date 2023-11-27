@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Blog.Api.Business.Comment;
 using Blog.Api.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Api.Controllers;
@@ -30,12 +31,14 @@ public class CommentController : ControllerBase
         [MaxLength(50)] public string? Content { get; set; }
     }
 
-
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<CommentDto>> CreateCommentAsync([FromRoute] int postId,
         [FromBody] CommentCreationModel body)
     {
-        var com = await _mediator.Send(new AddComment(body.Title, body.Content, postId));
+        var userId = HttpContext.User.Identities.First().Claims.FirstOrDefault(x => x.Type == "UserId");
+
+        var com = await _mediator.Send(new AddComment(body.Title, body.Content, postId, userId.Value));
 
         return CreatedAtRoute("GetComment", new
         {
@@ -44,14 +47,19 @@ public class CommentController : ControllerBase
     }
 
     public record UpdateCommentTitleModel([MaxLength(50)] string Title);
-
+    [Authorize]
     [HttpPost("{commentId}/UpdateTitle")]
-    public Task<Unit> UpdateCommentTitle(int postId, int commentId, [FromBody] UpdateCommentTitleModel body) =>
-        _mediator.Send(new UpdateCommentTitle(commentId, postId, body.Title));
+    public Task<Unit> UpdateCommentTitle(int postId, int commentId, [FromBody] UpdateCommentTitleModel body)
+    {
+        var userId = HttpContext.User.Identities.First().Claims.FirstOrDefault(x => x.Type == "UserId");
+        return _mediator.Send(new UpdateCommentTitle(commentId, postId, body.Title, userId.Value));
+    }
 
     public record UpdateCommentContentModel([MaxLength(200)] string Content);
-
+    [Authorize]
     [HttpPost("{commentId}/UpdateContent")]
-    public Task<Unit> UpdatePostContent(int postId, int commentId, [FromBody] UpdateCommentContentModel body) =>
-        _mediator.Send(new UpdateCommentContent(commentId, postId, body.Content));
+    public Task<Unit> UpdatePostContent(int postId, int commentId, [FromBody] UpdateCommentContentModel body)
+    { var userId = HttpContext.User.Identities.First().Claims.FirstOrDefault(x => x.Type == "UserId");
+        return _mediator.Send(new UpdateCommentContent(commentId, postId, body.Content,userId.Value));
+    }
 }

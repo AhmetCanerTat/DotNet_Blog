@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace Blog.Api.Entities;
 
@@ -15,6 +16,10 @@ public class Comment
 
     [ForeignKey("PostId")] public Post? Post { get; set; }
     public int PostId { get; set; }
+    [ForeignKey("UserId")]
+    public string? UserId { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
 
 
     public DateTime CreationDate { get; set; }

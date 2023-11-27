@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Blog.Api.Business.Comment;
 
-public record UpdateCommentContent(int PostId, int CommentId, string Content) : ICommand
+public record UpdateCommentContent(int PostId, int CommentId, string Content,string UserId) : ICommand
 {
     public class Handler : IRequestHandler<UpdateCommentContent>
     {
@@ -15,7 +15,8 @@ public record UpdateCommentContent(int PostId, int CommentId, string Content) : 
 
         public async Task<Unit> Handle(UpdateCommentContent request, CancellationToken cancellationToken)
         {
-            var com = await _context.Comments.SingleRequiredAsync(x => x.Id == request.CommentId && x.PostId == request.PostId, cancellationToken);
+            var com = await _context.Comments.SingleRequiredAsync(x =>
+                (x.Id == request.CommentId && x.PostId == request.PostId)&& x.UserId ==request.UserId, cancellationToken);
             com.Content = request.Content;
             await _context.SaveChangesAsync(cancellationToken);
             return default;

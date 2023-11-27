@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Api.Business.Post;
 
-public record UpdatePostTitle(int postId, string Title) : ICommand
+public record UpdatePostTitle(int PostId, string Title,string? UserId) : ICommand
 {
     public class Handler : IRequestHandler<UpdatePostTitle>
     {
@@ -16,7 +16,7 @@ public record UpdatePostTitle(int postId, string Title) : ICommand
 
         public async Task<Unit> Handle(UpdatePostTitle request, CancellationToken cancellationToken)
         {
-            var post = await _context.Posts.SingleRequiredAsync(x => x.Id == request.postId, cancellationToken);
+            var post = await _context.Posts.SingleRequiredAsync(x => x.Id == request.PostId && x.UserId == request.UserId, cancellationToken);
             post.Title = request.Title;
             await _context.SaveChangesAsync(cancellationToken);
             return default;
